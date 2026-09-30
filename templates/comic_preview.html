@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ComicCraft - Comic Preview</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f2f2f2;
+            color: #222;
+        }
+
+        /* HEADER */
+
+        header {
+            background: #1f1f1f;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+
+        header p {
+            margin: 10px 0 0;
+            color: #cccccc;
+        }
+
+        /* MAIN */
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title h2 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: #666;
+        }
+
+        /* PANEL */
+
+        .comic-panel {
+            background: white;
+            margin-bottom: 35px;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.12);
+        }
+
+        .panel-header {
+            background: #292929;
+            color: white;
+            padding: 15px 20px;
+        }
+
+        .panel-header h3 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .panel-content {
+            padding: 20px;
+        }
+
+        .panel-image {
+            width: 100%;
+            display: block;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* TEXT SECTIONS */
+
+        .section {
+            margin-bottom: 18px;
+        }
+
+        .section-title {
+            font-weight: bold;
+            font-size: 17px;
+            margin-bottom: 7px;
+        }
+
+        .scene {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .narration {
+            background: #f3f3f3;
+            padding: 15px;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+
+        /* DIALOGUE */
+
+        .dialogue-box {
+            margin-top: 10px;
+        }
+
+        .dialogue {
+            background: #fff8d8;
+            border: 1px solid #e5d477;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        .character {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .dialogue-text {
+            line-height: 1.5;
+        }
+
+        /* IMAGE PROMPT */
+
+        details {
+            margin-top: 15px;
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .prompt {
+            margin-top: 10px;
+            padding: 15px;
+            background: #f7f7f7;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #666;
+        }
+
+        /* BUTTONS */
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 40px 0;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 14px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .download {
+            background: #222;
+            color: white;
+        }
+
+        .new-comic {
+            background: white;
+            color: #222;
+            border: 2px solid #222;
+        }
+
+        .button:hover {
+            opacity: 0.8;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            header h1 {
+                font-size: 28px;
+            }
+
+            .container {
+                padding: 0 10px;
+            }
+
+            .panel-content {
+                padding: 15px;
+            }
+
+            .page-title h2 {
+                font-size: 25px;
+            }
+
+            .button {
+                width: 100%;
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>🎨 ComicCraft</h1>
+
+    <p>Your AI-Generated Comic</p>
+
+</header>
+
+
+<main class="container">
+
+
+    <div class="page-title">
+
+        <h2>📖 Comic Preview</h2>
+
+        <p>
+            Your five-panel comic has been successfully created.
+        </p>
+
+    </div>
+
+
+    {% for panel in layout %}
+
+    <article class="comic-panel">
+
+
+        <div class="panel-header">
+
+            <h3>
+                Panel {{ panel.panel_number }} —
+                {{ panel.title }}
+            </h3>
+
+        </div>
+
+
+        <div class="panel-content">
+
+
+            <!-- IMAGE -->
+
+            <img
+                src="/{{ panel.image_path }}"
+                alt="Comic Panel {{ panel.panel_number }}"
+                class="panel-image"
+            >
+
+
+            <!-- SCENE -->
+
+            <div class="section">
+
+                <div class="section-title">
+                    🎬 Scene
+                </div>
+
+                <div class="scene">
+                    {{ panel.scene_description }}
+                </div>
+
+            </div>
+
+
+            <!-- NARRATION -->
+
+            <div class="section">
+
+                <div class="section-title">
+                    📖 Narration
+                </div>
+
+                <div class="narration">
+
+                    {{ panel.narration }}
+
+                </div>
+
+            </div>
+
+
+            <!-- DIALOGUE -->
+
+            {% if panel.dialogue %}
+
+            <div class="section">
+
+                <div class="section-title">
+                    💬 Dialogue
+                </div>
+
+
+                <div class="dialogue-box">
+
+                    {% for dialogue in panel.dialogue %}
+
+                    <div class="dialogue">
+
+                        <div class="character">
+
+                            {{ dialogue.character }}
+
+                        </div>
+
+                        <div class="dialogue-text">
+
+                            "{{ dialogue.text }}"
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- IMAGE PROMPT -->
+
+            <details>
+
+                <summary>
+                    🔍 View Image Prompt
+                </summary>
+
+                <div class="prompt">
+
+                    {{ panel.image_prompt }}
+
+                </div>
+
+            </details>
+
+
+        </div>
+
+
+    </article>
+
+    {% endfor %}
+
+
+    <!-- ACTION BUTTONS -->
+
+    <div class="actions">
+
+
+        <a
+            href="{{ pdf_path }}"
+            class="button download"
+            download
+        >
+            📄 Download PDF
+        </a>
+
+
+        <a
+            href="/"
+            class="button new-comic"
+        >
+            🔄 Create Another Comic
+        </a>
+
+
+    </div>
+
+
+</main>
+
+
+<footer>
+
+    ComicCraft — AI Comic Story Creator
+
+</footer>
+
+
+</body>
+
+</html>

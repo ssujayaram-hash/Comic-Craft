@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ComicCraft - Upload Images</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            color: #222;
+        }
+
+        header {
+            background: #222;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        header p {
+            margin-top: 8px;
+            color: #ddd;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .panel-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .panel-card h2 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .prompt-box {
+            background: #f1f1f1;
+            border-left: 5px solid #333;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+
+        .prompt-box strong {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .upload-box {
+            margin-top: 20px;
+        }
+
+        input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px dashed #aaa;
+            border-radius: 8px;
+            background: #fafafa;
+            cursor: pointer;
+        }
+
+        .submit-button {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            margin-top: 30px;
+            background: #222;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background: #444;
+        }
+
+        .instructions {
+            background: #fff8d8;
+            border: 1px solid #e5d477;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .instructions h2 {
+            margin-top: 0;
+        }
+
+        .instructions ol {
+            line-height: 1.8;
+        }
+
+        .required {
+            color: red;
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                padding: 10px;
+            }
+
+            .panel-card {
+                padding: 18px;
+            }
+
+            header h1 {
+                font-size: 26px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>🎨 ComicCraft</h1>
+
+    <p>Create your comic using Gemini-generated story prompts</p>
+
+</header>
+
+
+<div class="container">
+
+
+    <div class="instructions">
+
+        <h2>📌 Next Step</h2>
+
+        <ol>
+
+            <li>Read the image prompt for each panel.</li>
+
+            <li>Use the prompt in your Gemini app to generate the image.</li>
+
+            <li>Download the generated image.</li>
+
+            <li>Upload the corresponding image below.</li>
+
+            <li>Repeat this for all 5 panels.</li>
+
+        </ol>
+
+        <p>
+            <strong>Supported formats:</strong>
+            JPG, JPEG, PNG, WEBP
+        </p>
+
+    </div>
+
+
+    <form
+        action="/upload-images"
+        method="post"
+        enctype="multipart/form-data"
+    >
+
+
+        <!-- Hidden story data -->
+
+        <input
+            type="hidden"
+            name="outline_json"
+            value='{{ outline | tojson }}'
+        >
+
+        <input
+            type="hidden"
+            name="story_json"
+            value='{{ story | tojson }}'
+        >
+
+
+        <!-- PANEL 1 -->
+
+        <div class="panel-card">
+
+            <h2>🖼️ Panel 1</h2>
+
+            <p>
+                <strong>
+                    {{ outline.panels[0].title }}
+                </strong>
+            </p>
+
+            <div class="prompt-box">
+
+                <strong>Scene:</strong>
+
+                {{ outline.panels[0].scene_description }}
+
+            </div>
+
+
+            <div class="prompt-box">
+
+                <strong>Gemini Image Prompt:</strong>
+
+                {{ outline.panels[0].image_prompt }}
+
+            </div>
+
+
+            <div class="upload-box">
+
+                <label>
+                    <strong>
+                        Upload Panel 1 Image
+                        <span class="required">*</span>
+                    </strong>
+                </label>
+
+                <br><br>
+
+                <input
+                    type="file"
+                    name="panel_1"
+                    accept="image/png,image/jpeg,image/webp"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- PANEL 2 -->
+
+        <div class="panel-card">
+
+            <h2>🖼️ Panel 2</h2>
+
+            <p>
+                <strong>
+                    {{ outline.panels[1].title }}
+                </strong>
+            </p>
+
+            <div class="prompt-box">
+
+                <strong>Scene:</strong>
+
+                {{ outline.panels[1].scene_description }}
+
+            </div>
+
+
+            <div class="prompt-box">
+
+                <strong>Gemini Image Prompt:</strong>
+
+                {{ outline.panels[1].image_prompt }}
+
+            </div>
+
+
+            <div class="upload-box">
+
+                <label>
+                    <strong>
+                        Upload Panel 2 Image
+                        <span class="required">*</span>
+                    </strong>
+                </label>
+
+                <br><br>
+
+                <input
+                    type="file"
+                    name="panel_2"
+                    accept="image/png,image/jpeg,image/webp"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- PANEL 3 -->
+
+        <div class="panel-card">
+
+            <h2>🖼️ Panel 3</h2>
+
+            <p>
+                <strong>
+                    {{ outline.panels[2].title }}
+                </strong>
+            </p>
+
+            <div class="prompt-box">
+
+                <strong>Scene:</strong>
+
+                {{ outline.panels[2].scene_description }}
+
+            </div>
+
+
+            <div class="prompt-box">
+
+                <strong>Gemini Image Prompt:</strong>
+
+                {{ outline.panels[2].image_prompt }}
+
+            </div>
+
+
+            <div class="upload-box">
+
+                <label>
+                    <strong>
+                        Upload Panel 3 Image
+                        <span class="required">*</span>
+                    </strong>
+                </label>
+
+                <br><br>
+
+                <input
+                    type="file"
+                    name="panel_3"
+                    accept="image/png,image/jpeg,image/webp"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- PANEL 4 -->
+
+        <div class="panel-card">
+
+            <h2>🖼️ Panel 4</h2>
+
+            <p>
+                <strong>
+                    {{ outline.panels[3].title }}
+                </strong>
+            </p>
+
+            <div class="prompt-box">
+
+                <strong>Scene:</strong>
+
+                {{ outline.panels[3].scene_description }}
+
+            </div>
+
+
+            <div class="prompt-box">
+
+                <strong>Gemini Image Prompt:</strong>
+
+                {{ outline.panels[3].image_prompt }}
+
+            </div>
+
+
+            <div class="upload-box">
+
+                <label>
+                    <strong>
+                        Upload Panel 4 Image
+                        <span class="required">*</span>
+                    </strong>
+                </label>
+
+                <br><br>
+
+                <input
+                    type="file"
+                    name="panel_4"
+                    accept="image/png,image/jpeg,image/webp"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- PANEL 5 -->
+
+        <div class="panel-card">
+
+            <h2>🖼️ Panel 5</h2>
+
+            <p>
+                <strong>
+                    {{ outline.panels[4].title }}
+                </strong>
+            </p>
+
+            <div class="prompt-box">
+
+                <strong>Scene:</strong>
+
+                {{ outline.panels[4].scene_description }}
+
+            </div>
+
+
+            <div class="prompt-box">
+
+                <strong>Gemini Image Prompt:</strong>
+
+                {{ outline.panels[4].image_prompt }}
+
+            </div>
+
+
+            <div class="upload-box">
+
+                <label>
+                    <strong>
+                        Upload Panel 5 Image
+                        <span class="required">*</span>
+                    </strong>
+                </label>
+
+                <br><br>
+
+                <input
+                    type="file"
+                    name="panel_5"
+                    accept="image/png,image/jpeg,image/webp"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- SUBMIT -->
+
+        <button
+            type="submit"
+            class="submit-button"
+        >
+
+            🚀 Create My Comic
+
+        </button>
+
+
+    </form>
+
+
+</div>
+
+
+</body>
+
+</html>
